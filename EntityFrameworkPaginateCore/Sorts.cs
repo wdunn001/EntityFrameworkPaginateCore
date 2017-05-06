@@ -46,10 +46,7 @@ namespace EntityFrameworkPaginateCore
             return _sortList.Any(s => s.Condition);
         }
 
-        internal dynamic Get()
-        {
-            return _sortList.First(s => s.Condition);
-        }
+        internal dynamic Get() => _sortList.FirstOrDefault(s => s.Condition);
 
         internal static IQueryable<T> ApplySort<TKey>(IQueryable<T> query, Sort<T, TKey> sort)
         {
