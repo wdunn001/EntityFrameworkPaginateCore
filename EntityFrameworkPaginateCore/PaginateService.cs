@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityFrameworkPaginate
+namespace EntityFrameworkPaginateCore
 {
     public static class PaginateService
     {
@@ -17,7 +16,7 @@ namespace EntityFrameworkPaginate
         /// <param name="pageNumber">The page no. which needs to be fetched.</param>
         /// <param name="pageSize">The number or records expected in the page.</param>
         /// <returns>A Page object with filtered data for the given page number and page size.</returns>
-        public static async Task<Page<T>> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize)
+        public static async Task<Page<T>> PaginateAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize)
         {
             Page<T> result = new Page<T>
             {
@@ -39,10 +38,10 @@ namespace EntityFrameworkPaginate
         /// <param name="pageSize">The number or records expected in the page.</param>
         /// <param name="sorts">Conditional sorts.</param>
         /// <returns>A Page object with filtered data for the given page number and page size.</returns>
-        public static async Task<Page<T>> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts)
+        public static async Task<Page<T>> PaginateAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts)
         {
-             IQueryable<T> result = await query.ApplySort(sorts);
-             return await result.Paginate(pageNumber, pageSize);
+             IQueryable<T> result = await query.ApplySortAsync(sorts);
+             return await result.PaginateAsync(pageNumber, pageSize);
         }
 
         /// <summary>
@@ -55,9 +54,9 @@ namespace EntityFrameworkPaginate
         /// <param name="sorts">Conditional sorts.</param>
         /// <param name="filters">Conditional filters.</param>
         /// <returns>A Page object with filtered data for the given page number and page size.</returns>
-        public static async Task<Page<T>> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts, Filters<T> filters)
+        public static async Task<Page<T>> PaginateAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts, Filters<T> filters)
         {
-            return await query.ApplyFilter(filters).Paginate(pageNumber, pageSize, sorts);
+            return await query.ApplyFilter(filters).PaginateAsync(pageNumber, pageSize, sorts);
         }
 
         private static IQueryable<T> ApplyFilter<T>(this IQueryable<T> query, Filters<T> filters)
@@ -65,7 +64,7 @@ namespace EntityFrameworkPaginate
             return !filters.IsValid() ? query : filters.Get().Aggregate(query, (current, filter) => current.Where(filter.Expression));
         }
 
-        private static async Task<IQueryable<T>> ApplySort<T>(this IQueryable<T> query, Sorts<T> sorts)
+        private static async Task<IQueryable<T>> ApplySortAsync<T>(this IQueryable<T> query, Sorts<T> sorts)
         {
             if (!sorts.IsValid()) return query;
             dynamic sort = sorts.Get();

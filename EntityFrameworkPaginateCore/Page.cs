@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EntityFrameworkPaginate
+namespace EntityFrameworkPaginateCore
 {
     /// <summary>
     /// Stores the filtered, sorted and paginated data for the given entity type.
