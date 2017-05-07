@@ -56,3 +56,5 @@ in your controller
 ```
 
 BAM! paginated output with sorting and filtering you can exclude sorts and filters as there is an overload for each
+
+if you need pagination for .net 4.5.2 go [here](https://github.com/harshwPro/EntityFrameworkPaginate)
