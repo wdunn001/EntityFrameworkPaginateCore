@@ -15,7 +15,7 @@ using EntityFrameworkPaginateCore;
 
 to you provider
 
-it has 1 method and 2 overloads for that method
+Has 1 method and 2 overloads for that method overloads allow sorting and filtering. use the sort object and the filter objects
 
 ```
 public async Task<Page<Example>> GetPaginatedExample(
@@ -26,7 +26,6 @@ public async Task<Page<Example>> GetPaginatedExample(
             )
         {
             var filters = new Filters<Example>();
-            if(searchText.Length > 0) 
                 filters.Add(!string.IsNullOrEmpty(searchText), x => x.Title.Contains(searchText));
 
             var sorts = new Sorts<Example>();
