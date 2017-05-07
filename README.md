@@ -1,7 +1,11 @@
 # EntityFrameworkPaginateCore
 EF Pagination for NetStandard and .Net Core with full async support
 
-add to project
+add nuget to project
+
+```
+Install-Package EntityFrameworkPaginateCore
+```
 
 add
 
