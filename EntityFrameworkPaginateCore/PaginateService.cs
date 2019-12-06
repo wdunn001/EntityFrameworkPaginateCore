@@ -8,6 +8,22 @@ namespace EntityFrameworkPaginateCore
     public static class PaginateService
     {
         /// <summary>
+        /// See `Task<Page<T>> PaginateAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize)`.
+        /// </summary>
+        public static Page<T> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize)
+        {
+            Page<T> result = new Page<T>
+            {
+                CurrentPage = pageNumber,
+                PageSize = pageSize,
+                RecordCount = query.Count(),
+                Results = query.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList()
+            };
+            result.PageCount = (int)Math.Ceiling((double)result.RecordCount / pageSize);
+            return result;
+        }
+
+        /// <summary>
         /// Paginates your query and returns Page object for the given page number and page size.
         /// Note: OrderBy is mandatory for the pagination to work.
         /// </summary>
@@ -30,6 +46,15 @@ namespace EntityFrameworkPaginateCore
         }
 
         /// <summary>
+        /// See `Task<Page<T>> PaginateAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts)`
+        /// </summary>
+        public static Page<T> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts)
+        {
+            var result = query.ApplySort(sorts);
+            return result.Paginate(pageNumber, pageSize);
+        }
+
+        /// <summary>
         /// Paginates your query and returns Page object for the given page number and page size.
         /// </summary>
         /// <typeparam name="T">Type of Entity for which pagination is being implemented.</typeparam>
@@ -42,6 +67,16 @@ namespace EntityFrameworkPaginateCore
         {
             var result = query.ApplySort(sorts);
             return await result.PaginateAsync(pageNumber, pageSize);
+        }
+
+        /// <summary>
+        /// See `Task<Page<T>> PaginateAsync<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts, Filters<T> filters)`
+        /// </summary>
+        public static Page<T> Paginate<T>(this IQueryable<T> query, int pageNumber, int pageSize, Sorts<T> sorts, Filters<T> filters)
+        {
+            var results = query.ApplyFilter(filters);
+
+            return results.Paginate(pageNumber, pageSize, sorts);
         }
 
         /// <summary>
