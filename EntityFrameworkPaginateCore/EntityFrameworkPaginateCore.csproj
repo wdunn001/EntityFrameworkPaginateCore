@@ -1,14 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Jason Dunn</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>2.1.0</Version>
+    <Description>Entity Framework Pagination Library with full async support</Description>
+    <RepositoryUrl>https://github.com/wdunn001/EntityFrameworkPaginateCore</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/wdunn001/EntityFrameworkPaginateCore</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
   </ItemGroup>
